@@ -1,0 +1,8 @@
+{
+  "name": "awesome-i18n-translator-google",
+  "version": "0.0.1",
+  "main": "./index.js",
+  "dependencies": {
+    "google-translate-api": "^2.3.0"
+  }
+}
