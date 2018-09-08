@@ -1,0 +1,35 @@
+{
+  "name": "ai18n-reducer-icu",
+  "version": "0.0.2-alpha.0",
+  "main": "dist/index.js",
+  "dependencies": {
+    "intl-messageformat-parser": "^1.4.0",
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/lodash": "^4.14.116",
+    "jest": "^23.5.0",
+    "ts-jest": "^23.1.4",
+    "typescript": "^3.0.3"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig-build.json --outDir ./dist",
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/__test__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "gitHead": "218c48cf842684fe0bb5ea05ae77bd89caacd07f"
+}
