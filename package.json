@@ -1,0 +1,12 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.3.0"
+  },
+  "scripts": {
+    "lerna": "lerna",
+    "test": "lerna run test",
+    "npm-publish": "lerna publish --npm-client=npm"
+  }
+}
