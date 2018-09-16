@@ -7,6 +7,7 @@
   "scripts": {
     "lerna": "lerna",
     "test": "lerna run test",
-    "npm-publish": "lerna publish --npm-client=npm"
+    "build": "lerna run build",
+    "npm-publish": "npm run test && npm run build && lerna publish"
   }
 }

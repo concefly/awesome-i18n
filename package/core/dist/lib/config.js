@@ -12,7 +12,7 @@ function getDefaultConfig() {
                 use: 'ai18n-loader-js',
             },
         ],
-        reducer: 'ai18n-reducer-icu',
+        reducer: 'ai18n-reducer',
         translator: 'ai18n-translator-google',
     };
 }
