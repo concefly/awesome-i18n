@@ -1,6 +1,6 @@
 {
   "name": "ai18n-translator-google",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.2-alpha.2",
   "main": "./index.js",
   "dependencies": {
     "google-translate-api": "^2.3.0"

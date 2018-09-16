@@ -1,6 +1,6 @@
 {
   "name": "ai18n-reducer-icu",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.2-alpha.2",
   "main": "dist/index.js",
   "dependencies": {
     "intl-messageformat-parser": "^1.4.0",
