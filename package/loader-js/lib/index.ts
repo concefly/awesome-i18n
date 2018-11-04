@@ -1,6 +1,9 @@
-import * as acorn from 'acorn-jsx';
-import { Program, CallExpression, Literal, Identifier } from 'estree';
 import walk from './walk';
+import { Parser as OriginParser, Options } from 'acorn';
+import * as acornJsx from 'acorn-jsx';
+import { Program, CallExpression, Literal, Identifier } from 'estree';
+
+const Parser = OriginParser.extend(acornJsx(OriginParser));
 
 export interface LoaderConfigType {}
 export interface LoaderParseType {
@@ -11,6 +14,11 @@ export interface LoaderParseType {
 }
 
 class Loader {
+  static PARSER_CONFIG: Options = {
+    sourceType: 'module',
+    ecmaVersion: 2019,
+  };
+
   public config: LoaderConfigType;
   public ast: Program;
 
@@ -48,7 +56,7 @@ class Loader {
 
   parse(code: string): LoaderParseType[] {
     const markList: LoaderParseType[] = [];
-    const ast = (this.ast = acorn.parse(code, this.config));
+    const ast = (this.ast = new Parser(Loader.PARSER_CONFIG, code).parse() as any);
     walk.simple(ast, {
       CallExpression: node => {
         const r = this.parseCallExpression(node);

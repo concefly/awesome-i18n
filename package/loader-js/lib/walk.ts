@@ -1,6 +1,6 @@
 // https://github.com/RReverser/acorn-jsx/pull/87
 
-import * as walk from 'acorn/dist/walk';
+import * as walk from 'acorn-walk';
 
 const base = walk.base;
 base.JSXSpreadAttribute = base.SpreadElement;

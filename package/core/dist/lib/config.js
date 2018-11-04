@@ -8,8 +8,12 @@ function getDefaultConfig() {
         langs: ['zh-cn', 'en'],
         loader: [
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 use: 'ai18n-loader-js',
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ai18n-loader-ts',
             },
         ],
         reducer: 'ai18n-reducer',

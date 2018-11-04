@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const acorn = require("acorn-jsx");
 const walk_1 = require("./walk");
+const acorn_1 = require("acorn");
+const acornJsx = require("acorn-jsx");
+const Parser = acorn_1.Parser.extend(acornJsx(acorn_1.Parser));
 class Loader {
     constructor(config = {}) {
         this.config = Object.assign({ plugins: { jsx: true } }, config);
@@ -32,7 +34,7 @@ class Loader {
     }
     parse(code) {
         const markList = [];
-        const ast = (this.ast = acorn.parse(code, this.config));
+        const ast = (this.ast = new Parser(Loader.PARSER_CONFIG, code).parse());
         walk_1.default.simple(ast, {
             CallExpression: node => {
                 const r = this.parseCallExpression(node);
@@ -43,4 +45,8 @@ class Loader {
         return markList;
     }
 }
+Loader.PARSER_CONFIG = {
+    sourceType: 'module',
+    ecmaVersion: 2019,
+};
 exports.default = Loader;

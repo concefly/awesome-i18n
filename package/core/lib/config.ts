@@ -14,7 +14,7 @@ export interface ConfigType {
   langs: string[];
   loader: { test: RegExp; use: string }[];
   reducer: string;
-  translator: string | TranslatorFuncType;
+  translator: string | TranslatorFuncType | [string, any];
 }
 
 export function getDefaultConfig(): ConfigType {
@@ -25,8 +25,12 @@ export function getDefaultConfig(): ConfigType {
     langs: ['zh-cn', 'en'],
     loader: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         use: 'ai18n-loader-js',
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ai18n-loader-ts',
       },
     ],
     reducer: 'ai18n-reducer',

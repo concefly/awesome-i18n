@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import { parse, TokenType, MessageTextElement, ArgumentElement, build } from './icu';
-import { buildSimpleSelectPattern, buildSimpleTextPattern, mergeValues } from './util';
+import { parse, TokenType, ArgumentElement, build } from './icu';
+import { buildSimpleSelectPattern, mergeValues } from './util';
 
 export interface MapType<T> {
   [key: string]: T;
@@ -65,6 +65,7 @@ export default class Reducer {
         // 上下文动态文本模式
         if (
           ast.elements[0].type === TokenType.argumentElement &&
+          (ast.elements[0] as ArgumentElement).format &&
           (ast.elements[0] as ArgumentElement).format.type === TokenType.selectFormat
         ) {
           return (ast.elements[0] as ArgumentElement).format.options.map(opt => {
@@ -102,6 +103,8 @@ export default class Reducer {
           // source 有 message，则原样返回(不修改源文件的翻译)
           if (s.message) return s;
           else return i;
+        }, { 
+          noDropKeys: ['other']
         })
     );
     // 合并 descMap

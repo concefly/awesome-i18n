@@ -4,7 +4,8 @@ export interface LoaderConstructor {
 
 export interface LoaderInstance {
   parse: (
-    code: string
+    code: string,
+    filePath: string,
   ) => {
     mark: {
       key: string;

@@ -1,7 +1,7 @@
 "use strict";
 // https://github.com/RReverser/acorn-jsx/pull/87
 Object.defineProperty(exports, "__esModule", { value: true });
-const walk = require("acorn/dist/walk");
+const walk = require("acorn-walk");
 const base = walk.base;
 base.JSXSpreadAttribute = base.SpreadElement;
 base.JSXOpeningFragment = base.JSXEmptyExpression = base.JSXIdentifier = base.JSXText = base.JSXClosingFragment =
