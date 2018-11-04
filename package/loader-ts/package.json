@@ -1,6 +1,6 @@
 {
   "name": "ai18n-loader-ts",
-  "version": "0.0.2-alpha.3",
+  "version": "0.1.2",
   "main": "dist/index.js",
   "devDependencies": {
     "@types/jest": "^23.3.2",
@@ -25,6 +25,5 @@
       "json",
       "node"
     ]
-  },
-  "dependencies": {}
+  }
 }
