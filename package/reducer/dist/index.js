@@ -34,6 +34,7 @@ class Reducer {
                 throw new Error('参数选择器存在时，只能有一个 element');
             // 上下文动态文本模式
             if (ast.elements[0].type === icu_1.TokenType.argumentElement &&
+                ast.elements[0].format &&
                 ast.elements[0].format.type === icu_1.TokenType.selectFormat) {
                 return ast.elements[0].format.options.map(opt => {
                     return {
@@ -68,6 +69,8 @@ class Reducer {
                 return s;
             else
                 return i;
+        }, {
+            noDropKeys: ['other']
         }));
         // 合并 descMap
         const re = _.mapValues(resolvedStructure, (descMap, key) => {

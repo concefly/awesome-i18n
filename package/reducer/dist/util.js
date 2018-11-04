@@ -52,11 +52,9 @@ function mergeValues(source, incoming, resolve, opt = {}) {
         .pick(conflictList)
         .mapValues((value, key) => resolve(value, incoming[key]))
         .value();
-    if (opt.noDrop) {
-        _.merge(re, source, incoming, resolved);
-    }
-    else {
-        _.merge(re, resolved, _.pick(incoming, appendList));
+    _.merge(re, resolved, _.pick(incoming, appendList));
+    if (opt.noDropKeys) {
+        _.merge(re, _.pick(source, opt.noDropKeys));
     }
     return re;
 }

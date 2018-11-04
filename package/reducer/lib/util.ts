@@ -58,7 +58,7 @@ export function mergeValues<A = any, B = A, C = A>(
   source: { [key: string]: A },
   incoming: { [key: string]: B },
   resolve: (sourceValue: A, incomingValue: B) => C,
-  opt: { noDrop?: boolean } = {}
+  opt: { noDropKeys?: string[] } = {}
 ) {
   let re: { [key: string]: C } = {};
   const sourceKeys = _.keys(source);
@@ -72,10 +72,12 @@ export function mergeValues<A = any, B = A, C = A>(
     .pick(conflictList)
     .mapValues((value, key) => resolve(value, incoming[key]))
     .value();
-  if (opt.noDrop) {
-    _.merge(re, source, incoming, resolved);
-  } else {
-    _.merge(re, resolved, _.pick(incoming, appendList));
+
+  _.merge(re, resolved, _.pick(incoming, appendList));
+
+  if (opt.noDropKeys) {
+    _.merge(re, _.pick(source, opt.noDropKeys));
   }
+
   return re;
 }
