@@ -14,11 +14,35 @@ yargs
     yargs => {},
     argv => {
       const config = getUserConfig(argv.config);
-      const i18n = new AI18n(config, { hook });
-      i18n.run().then(translateResult => {
-        const firstLang = Object.keys(translateResult)[0];
-        const cnt = Object.keys(translateResult[firstLang]).length;
-        console.log('已执行完成 %s 个文案', cnt);
+
+      let runI18n;
+      
+      // 配置是 array
+      if (Array.isArray(config)) {
+        runI18n = async () => {
+          const re = [];
+          for (const conf of config) {
+            const result = await new AI18n(conf, hook).run();
+            re.push(result);
+          }
+          return re;
+        }
+      } 
+      // 配置是 object
+      else {
+        runI18n = async () => {
+          const result = await new AI18n(config, hook).run();
+          return [result];
+        }
+      }
+
+      runI18n().then(translateResultList => {
+        const resLength = translateResultList.length;
+        translateResultList.forEach((translateResult, index) => {
+          const firstLang = Object.keys(translateResult)[0];
+          const cnt = Object.keys(translateResult[firstLang]).length;
+          console.log('[%s/%s] 已执行完成 %s 个文案', index + 1, resLength, cnt);
+        })
       });
     }
   )

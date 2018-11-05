@@ -1,12 +1,6 @@
 import AwesomeI18n from '../lib/index';
 import MemoryFileSystem = require('memory-fs');
 
-const FAKE_FILES = {
-  'a.js': `<div>{__('中文a')}</div>`,
-  'b.js': `<div>{__define('111')}</div>`,
-  'c.tsx': `<div>{__define('中文c')}</div>`,
-};
-
 test('normal', async () => {
   const mfs = new MemoryFileSystem();
 

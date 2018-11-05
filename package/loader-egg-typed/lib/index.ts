@@ -25,7 +25,7 @@ class Loader {
     this.config = { plugins: { jsx: true }, ...config };
   }
 
-  private parseCallExpression(node: ts.CallExpression): LoaderParseType {
+  private parseNewExpression(node: ts.NewExpression): LoaderParseType {
     const method = node.expression.getText();
     if (METHOD_LIST.indexOf(method) >= 0) {
       const [arg1] = node.arguments;
@@ -70,8 +70,8 @@ class Loader {
     const markList: LoaderParseType[] = [];
 
     walk(source, node => {
-      if (ts.isCallExpression(node)) {
-        const r = this.parseCallExpression(node);
+      if (ts.isNewExpression(node)) {
+        const r = this.parseNewExpression(node);
         if (r) markList.push(r);
       }
     });
