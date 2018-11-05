@@ -144,16 +144,21 @@ export default class AwesomeI18n {
     // load，提取所有多语言文案
     const loaderResultList = _.chain(inputFiles)
       .map(filePath => {
-        const loader = _.find(this.config.loader, ({ test }) => test.test(filePath));
-        if (!loader) throw new Error(`${filePath} 找不到对应的 loader`);
-
+        const loaders = _.filter(this.config.loader, ({ test }) => test.test(filePath));
+        if (loaders.length === 0) throw new Error(`${filePath} 找不到对应的 loader`);
+        return _.map(loaders, lo => ({ ...lo, filePath }));
+      })
+      .flatten()
+      .map(loader => {
         const Loader: LoaderConstructor = require(require.resolve(loader.use)).default;
 
-        this.opt.hook && this.opt.hook.beforeLoad && this.opt.hook.beforeLoad(filePath);
+        this.opt.hook && this.opt.hook.beforeLoad && this.opt.hook.beforeLoad(loader.filePath);
 
-        const parseResult = new Loader().parse(this.readFile(filePath), filePath);
+        const parseResult = new Loader().parse(this.readFile(loader.filePath), loader.filePath);
 
-        this.opt.hook && this.opt.hook.afterLoad && this.opt.hook.afterLoad(filePath, parseResult);
+        this.opt.hook &&
+          this.opt.hook.afterLoad &&
+          this.opt.hook.afterLoad(loader.filePath, parseResult);
 
         return parseResult;
       })
