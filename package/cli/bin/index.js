@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const yargs = require('yargs');
 const AI18n = require('ai18n-core').default;
 const { getUserConfig } = require('./config');
