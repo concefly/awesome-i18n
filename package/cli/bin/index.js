@@ -24,7 +24,7 @@ yargs
         runI18n = async () => {
           const re = [];
           for (const conf of config) {
-            const result = await new AI18n(conf, hook).run();
+            const result = await new AI18n(conf, {hook}).run();
             re.push(result);
           }
           return re;
@@ -33,7 +33,7 @@ yargs
       // 配置是 object
       else {
         runI18n = async () => {
-          const result = await new AI18n(config, hook).run();
+          const result = await new AI18n(config, {hook}).run();
           return [result];
         }
       }

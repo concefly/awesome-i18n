@@ -12,5 +12,8 @@
   "bin": {
     "ai18n": "./bin/index.js"
   },
+  "files": [
+    "./bin"
+  ],
   "gitHead": "542b5872b4777e342f2313b97b09666431cfc78a"
 }
