@@ -52,5 +52,5 @@ module.exports = {
 ## 执行国际化
 
 ```bash
-node ./node_modules/.bin/i18n.js all
+node ./node_modules/.bin/ai18n all
 ```
