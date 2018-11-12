@@ -17,7 +17,7 @@ createIntl({
 }, window);
 
 const message = __('中文');
-const button = <div>{ __('中文 {count}', 'inButton', { count: 12 }) }</div>;
+const button = <div>{ __('中文 {count}', 'inButton', { count: 12 }) }</div>;
 const menu = <div>{ __('中文 {count}', 'inMenu', { count: 12 }) }</div>;
 ```
 
@@ -74,10 +74,10 @@ loader: [
 
 ```javascript
 // __() 第二个参数控制上下文
-const button = <div>{ __('中文 {count}', 'inButton') }</div>;
+const button = <div>{ __('中文 {count}', 'inButton') }</div>;
 const menu = <div>{ __('中文 {count}', 'inMenu') }</div>;
 
-// 执行 node ./node_modules/.bin/ai18n all 后可自动获得不同上下文的翻译
+// 执行 node ./node_modules/.bin/ai18n all 后可自动获得不同上下文的翻译
 message = {
   '中文': '{description, select, inButton {中文} inMenu {中文} other{中文}}'
 }
