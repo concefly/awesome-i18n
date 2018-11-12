@@ -3,20 +3,22 @@
 一个基于 node 的全流程前端 i18n 解决方案。
 
 - 极简 api，零使用门槛
-- 全自动收集 + 翻译文案
+- 全自动收集，并剔除冗余文案
+- 自动机器翻译
 
 ```javascript
 import { createIntl } from 'ai18n-client';
 import message from '../../config/locale/en';
 
 createIntl({
-  // message: { 中文: 'Chinese' },
+  // 自动生成的 message: { 中文: '{description, select, inButton {Chinese1} inMenu {Chinese2} other {Chinese}}' },
   message,
   lang: 'en'
 }, window);
 
 const message = __('中文');
-const app = <div>{ __('中文') }</div>;
+const button = <div>{ __('中文 {count}', 'inButton', { count: 12 }) }</div>;
+const menu = <div>{ __('中文 {count}', 'inMenu', { count: 12 }) }</div>;
 ```
 
 ## 安装
@@ -53,4 +55,39 @@ module.exports = {
 
 ```bash
 node ./node_modules/.bin/ai18n all
+```
+
+## Typescript 源码支持
+
+使用 ai18n-loader-ts
+
+```javascript
+loader: [
+  {
+    test: /\.tsx?$/,
+    use: require.resolve('ai18n-loader-ts'),
+  },
+],
+```
+
+## 一词多译
+
+```javascript
+// __() 第二个参数控制上下文
+const button = <div>{ __('中文 {count}', 'inButton') }</div>;
+const menu = <div>{ __('中文 {count}', 'inMenu') }</div>;
+
+// 执行 node ./node_modules/.bin/ai18n all 后可自动获得不同上下文的翻译
+message = {
+  '中文': '{description, select, inButton {中文} inMenu {中文} other{中文}}'
+}
+```
+
+## 替换机器翻译工具
+
+```javascript
+{
+  // 有道翻译
+  translator: require.resolve('ai18n-translator-youdao')
+}
 ```
