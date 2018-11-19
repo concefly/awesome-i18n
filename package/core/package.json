@@ -21,6 +21,7 @@
     "lodash": "^4.17.11"
   },
   "scripts": {
+    "prepublish": "npm run build",
     "build": "tsc -p tsconfig-build.json --outDir ./dist",
     "test": "jest"
   },
