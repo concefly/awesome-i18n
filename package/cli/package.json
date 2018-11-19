@@ -1,12 +1,12 @@
 {
   "name": "ai18n-cli",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "dist/bin/index.js",
   "devDependencies": {
     "@types/node": "^10.10.3"
   },
   "dependencies": {
-    "ai18n-core": "^0.1.5",
+    "ai18n-core": "^0.1.8",
     "yargs": "^12.0.2"
   },
   "bin": {
