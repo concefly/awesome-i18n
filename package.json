@@ -8,6 +8,6 @@
     "lerna": "lerna",
     "test": "lerna run test",
     "build": "lerna run build",
-    "npm-version": "npm run test && npm run build && lerna version"
+    "npm-publish": "npm run test && npm run build && lerna publish"
   }
 }

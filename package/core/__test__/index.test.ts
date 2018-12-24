@@ -29,7 +29,7 @@ test('normal', async () => {
   });
 });
 
-test('自定义输出', async () => {
+test('自定义输出 js', async () => {
   const mfs = new MemoryFileSystem();
 
   mfs.writeFileSync('/a.js', `<div>{__('中文a')}</div>`, 'utf-8');
