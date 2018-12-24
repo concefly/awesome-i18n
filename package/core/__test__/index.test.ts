@@ -57,6 +57,7 @@ test('自定义输出', async () => {
     }
   });
   await i18n.run();
+  expect(mfs.existsSync('/i18n/zh-cn.json')).toBeTruthy();
   expect(mfs.existsSync('/i18n/zh-cn.js')).toBeTruthy();
   expect(mfs.readFileSync('/i18n/zh-cn.js', 'utf-8')).toEqual('x');
 });

@@ -133,21 +133,19 @@ export class AwesomeI18n {
    * 导出多语言文件
    */
   async dump(result: { [key: string]: string }, lang: string) {
+    const filePath = this.getDumpFilePath(lang);
+    const content = JSON.stringify(result, null, 2);
 
-    let filePath: string;
-    let content: string;
-
-    if (this.config.generator) {
-      const p = await this.config.generator({ lang, result });
-      filePath = path.join(this.config.output, p.filePath);
-      content = p.content;
-    } else {
-      filePath = this.getDumpFilePath(lang);
-      content = JSON.stringify(result, null, 2);
-    }
     this.getFs().writeFileSync(filePath, content, {
       encoding: 'utf-8',
     });
+
+    if (this.config.generator) {
+      const p = await this.config.generator({ lang, result });
+      this.getFs().writeFileSync(path.join(this.config.output, p.filePath), p.content, {
+        encoding: 'utf-8',
+      });
+    }
   }
 
   async run() {
