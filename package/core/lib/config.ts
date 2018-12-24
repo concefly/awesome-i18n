@@ -15,6 +15,12 @@ export interface ConfigType {
   loader: { test: RegExp; use: string }[];
   reducer: string;
   translator: string | TranslatorFuncType | [string, any];
+
+  /** 自定义输出 */
+  generator?: (props: { lang: string, result: { [key: string]: string } }) => Promise<{
+    filePath: string,
+    content: string
+  }>;
 }
 
 export function getDefaultConfig(): ConfigType {

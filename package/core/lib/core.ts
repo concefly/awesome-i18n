@@ -132,8 +132,20 @@ export class AwesomeI18n {
   /**
    * 导出多语言文件
    */
-  dump(result: { [key: string]: string }, lang: string) {
-    this.getFs().writeFileSync(this.getDumpFilePath(lang), JSON.stringify(result, null, 2), {
+  async dump(result: { [key: string]: string }, lang: string) {
+
+    let filePath: string;
+    let content: string;
+
+    if (this.config.generator) {
+      const p = await this.config.generator({ lang, result });
+      filePath = path.join(this.config.output, p.filePath);
+      content = p.content;
+    } else {
+      filePath = this.getDumpFilePath(lang);
+      content = JSON.stringify(result, null, 2);
+    }
+    this.getFs().writeFileSync(filePath, content, {
       encoding: 'utf-8',
     });
   }
@@ -195,7 +207,7 @@ export class AwesomeI18n {
           .value()
       );
 
-      this.dump(sortedTranslateResult, lang);
+      await this.dump(sortedTranslateResult, lang);
       finalMap[lang] = sortedTranslateResult;
     }
 
