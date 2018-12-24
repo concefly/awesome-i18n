@@ -1,6 +1,6 @@
 {
   "name": "ai18n-core",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "main": "dist/lib/index.js",
   "devDependencies": {
     "@types/glob": "^5.0.35",
@@ -8,9 +8,9 @@
     "@types/lodash": "^4.14.116",
     "@types/memory-fs": "^0.3.2",
     "@types/node": "^10.9.4",
-    "ai18n-loader-js": "^0.1.5",
-    "ai18n-loader-ts": "^0.1.5",
-    "ai18n-reducer": "^0.1.5",
+    "ai18n-loader-js": "^0.2.0",
+    "ai18n-loader-ts": "^0.2.0",
+    "ai18n-reducer": "^0.2.0",
     "jest": "^23.6.0",
     "memory-fs": "^0.4.1",
     "ts-jest": "^23.1.4",
