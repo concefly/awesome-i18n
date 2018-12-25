@@ -142,9 +142,12 @@ export class AwesomeI18n {
 
     if (this.config.generator) {
       const p = await this.config.generator({ lang, result });
-      this.getFs().writeFileSync(path.join(this.config.output, p.filePath), p.content, {
-        encoding: 'utf-8',
-      });
+      this.getFs().writeFileSync(
+        p.filePath.startsWith('/') ? p.filePath : path.join(this.config.output, p.filePath),
+        p.content,
+        {
+          encoding: 'utf-8',
+        });
     }
   }
 
