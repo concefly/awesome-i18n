@@ -1,6 +1,6 @@
 {
   "name": "ai18n-core",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "dist/lib/index.js",
   "devDependencies": {
     "@types/glob": "^5.0.35",
