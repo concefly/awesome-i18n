@@ -13,6 +13,7 @@ export interface OptType {
     afterLoad?: (filePath: string, result: any) => void;
     afterLoadAll?: (result: any) => void;
     afterTranslate?: (src: string, result: string, from: string, to: string) => void;
+    afterReduce?: (result: ReduceResultType, newMarkList: ReduceSourceType[], oldMarkList: ReduceSourceType[], oldLocalJson: { [key: string]: string }) => void;
   };
 }
 
@@ -192,10 +193,13 @@ export class AwesomeI18n {
 
     // 循环处理每种语言
     for (const lang of this.config.langs) {
-      const srcResultList = reducerIns.extract(
-        JSON.parse(this.readFile(this.getDumpFilePath(lang)))
-      );
-      const reduceResult = reducerIns.reduce(_.map(loaderResultList, r => r.mark), srcResultList);
+      const oldLocalJson = JSON.parse(this.readFile(this.getDumpFilePath(lang)));
+      const oldMarkList = reducerIns.extract(oldLocalJson);
+
+      const newMarkList = loaderResultList.map(r => r.mark);
+
+      const reduceResult = reducerIns.reduce(newMarkList, oldMarkList);
+      this.opt.hook && this.opt.hook.afterReduce && this.opt.hook.afterReduce(reduceResult, newMarkList, oldMarkList, oldLocalJson);
 
       const translateResult = await this.translate(reduceResult, lang);
 

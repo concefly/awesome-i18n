@@ -6,8 +6,11 @@
     "@types/node": "^10.10.3"
   },
   "dependencies": {
-    "ai18n-core": "^0.2.3",
+    "jsondiffpatch": "^0.3.11",
     "yargs": "^12.0.2"
+  },
+  "peerDependencies": {
+    "ai18n-core": ">0.2.3"
   },
   "bin": {
     "ai18n": "./bin/index.js"

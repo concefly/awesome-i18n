@@ -3,11 +3,7 @@
 const yargs = require('yargs');
 const AI18n = require('ai18n-core').default;
 const { getUserConfig } = require('./config');
-
-const hook = {
-  afterLoadAll: (parseResult) => console.log(`${parseResult.length} texts have been loaded.`),
-  afterTranslate: (src, result) => console.log(`${src} -> ${result}`),
-};
+const diffUtil = require('jsondiffpatch');
 
 yargs
   .command(
@@ -16,6 +12,27 @@ yargs
     yargs => {},
     argv => {
       const config = getUserConfig(argv.config);
+
+      /** @type boolean */
+      const checkTextChange = argv.check;
+
+      const hook = {
+        afterLoadAll: (parseResult) => console.log(`${parseResult.length} texts have been loaded.`),
+        afterTranslate: (src, result) => console.log(`${src} -> ${result}`),
+        afterReduce: (result, _newMarkList, _oldMarkList, localJson) => {
+          if (checkTextChange) {
+
+            const resultSpec = Object.keys(result || {}).sort();
+            const oldSpec = Object.keys(localJson || {}).sort();
+
+            const diffDesc = diffUtil.diff(oldSpec, resultSpec);
+            if (diffDesc) {
+              const output = diffUtil.formatters.console.format(diffDesc);
+              throw new Error('文案有变化 \n'+ output)
+            }
+          }
+        }
+      };
 
       let runI18n;
       
@@ -38,14 +55,19 @@ yargs
         }
       }
 
-      runI18n().then(translateResultList => {
-        const resLength = translateResultList.length;
-        translateResultList.forEach((translateResult, index) => {
-          const firstLang = Object.keys(translateResult)[0];
-          const cnt = Object.keys(translateResult[firstLang]).length;
-          console.log('[%s/%s] 已执行完成 %s 个文案', index + 1, resLength, cnt);
+      runI18n()
+        .then(translateResultList => {
+          const resLength = translateResultList.length;
+          translateResultList.forEach((translateResult, index) => {
+            const firstLang = Object.keys(translateResult)[0];
+            const cnt = Object.keys(translateResult[firstLang]).length;
+            console.log('[%s/%s] 已执行完成 %s 个文案', index + 1, resLength, cnt);
+          })
         })
-      });
+        .catch(e => {
+          console.error(e);
+          process.exit(1);
+        })
     }
   )
   .option('verbose', {
@@ -54,4 +76,9 @@ yargs
   })
   .option('config', {
     default: './i18nrc.js',
+  })
+  .option('check', {
+    default: false,
+    type: 'boolean',
+    describe: '文案有变化就异常退出(可用于 ci)',
   }).argv;
