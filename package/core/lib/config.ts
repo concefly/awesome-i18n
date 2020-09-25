@@ -1,6 +1,11 @@
-import { TranslatorFuncType } from '../type/translator';
+import {
+  BaseTranslator,
+  ILocalizeMsgMap,
+  LoadResult,
+  ReduceResult,
+} from "ai18n-type";
 
-export interface ConfigType {
+export interface IConfig {
   /** 输入文件 glob */
   input: string;
 
@@ -14,32 +19,48 @@ export interface ConfigType {
   langs: string[];
   loader: { test: RegExp; use: string }[];
   reducer: string;
-  translator: string | TranslatorFuncType | [string, any];
+  translator: string | BaseTranslator;
 
   /** 自定义输出 */
-  generator?: (props: { lang: string, result: { [key: string]: string } }) => Promise<{
-    filePath: string,
-    content: string
+  generator?: (props: {
+    lang: string;
+    result: ILocalizeMsgMap;
+  }) => Promise<{
+    filePath: string;
+    content: string;
   }>;
+
+  hook?: {
+    beforeLoad?: (filePath: string) => void;
+    afterLoad?: (filePath: string, result: any) => void;
+    afterLoadAll?: (result: LoadResult) => void;
+    afterTranslate?: (
+      src: string,
+      result: string,
+      from: string,
+      to: string
+    ) => void;
+    afterReduce?: (result: ReduceResult) => void;
+  };
 }
 
-export function getDefaultConfig(): ConfigType {
+export function getDefaultConfig(): IConfig {
   return {
-    input: '.',
-    output: './i18n',
-    defaultLang: 'zh-cn',
-    langs: ['zh-cn', 'en'],
+    input: ".",
+    output: "./i18n",
+    defaultLang: "zh-cn",
+    langs: ["zh-cn", "en"],
     loader: [
       {
-        test: /\.jsx?$/,
-        use: 'ai18n-loader-js',
+        test: /\.tsx?$/,
+        use: "ai18n-loader-ts",
       },
       {
-        test: /\.tsx?$/,
-        use: 'ai18n-loader-ts',
+        test: /\.jsx?$/,
+        use: "ai18n-loader-ts",
       },
     ],
-    reducer: 'ai18n-reducer',
-    translator: 'ai18n-translator-google',
+    reducer: "ai18n-reducer",
+    translator: "ai18n-translator-google",
   };
 }

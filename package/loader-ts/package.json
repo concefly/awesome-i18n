@@ -1,14 +1,18 @@
 {
   "name": "ai18n-loader-ts",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "jest": "^23.5.0",
-    "ts-jest": "^23.1.4",
-    "typescript": "^3.0.3"
+    "ts-jest": "^23.1.4"
+  },
+  "dependencies": {
+    "typescript": "^3.0.3",
+    "ai18n-type": "^1.0.0"
   },
   "scripts": {
+    "prepublish": "npm run build",
     "test": "jest",
     "build": "tsc -p tsconfig-build.json --outDir ./dist"
   },

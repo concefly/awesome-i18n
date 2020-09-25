@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tsx 1`] = `
+LoadResult {
+  "list": Array [
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文2",
+    },
+  ],
+}
+`;
+
+exports[`只有 key 1`] = `
+LoadResult {
+  "list": Array [
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+  ],
+}
+`;
+
+exports[`嵌套 1`] = `
+LoadResult {
+  "list": Array [
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+  ],
+}
+`;
+
+exports[`有 key 和 description 1`] = `
+LoadResult {
+  "list": Array [
+    LoadResultItem {
+      "description": "中文",
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+    LoadResultItem {
+      "description": undefined,
+      "key": "中文",
+    },
+  ],
+}
+`;

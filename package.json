@@ -5,7 +5,7 @@
     "lerna": "^3.3.0"
   },
   "scripts": {
-    "lerna": "lerna",
+    "bootstrap": "lerna bootstrap",
     "test": "lerna run test",
     "build": "lerna run build",
     "npm-publish": "npm run test && npm run build && lerna publish"

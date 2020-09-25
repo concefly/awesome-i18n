@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`extract extract 1`] = `
+ExtractResult {
+  "list": Array [
+    ExtractResultItem {
+      "description": "other",
+      "extra": Object {
+        "msg": "香蕉 {name}",
+      },
+      "key": "香蕉",
+    },
+    ExtractResultItem {
+      "description": "a",
+      "extra": Object {
+        "msg": "apple_a",
+      },
+      "key": "苹果",
+    },
+    ExtractResultItem {
+      "description": "b",
+      "extra": Object {
+        "msg": "apple_b",
+      },
+      "key": "苹果",
+    },
+  ],
+}
+`;
+
+exports[`reduce 冲突场景 - 保留原来的翻译 1`] = `
+ReduceResult {
+  "data": Map {
+    "香蕉" => ReduceResultItem {
+      "value": ICUItem {
+        "dumpStr": "{description, select, other{banana}}",
+        "translates": Array [],
+      },
+    },
+  },
+}
+`;
+
+exports[`reduce 冲突场景 - 冲突文案的新上下文复用翻译 1`] = `
+ReduceResult {
+  "data": Map {
+    "香蕉" => ReduceResultItem {
+      "value": ICUItem {
+        "dumpStr": "{description, select, a{banana} other{banana}}",
+        "translates": Array [],
+      },
+    },
+  },
+}
+`;
+
+exports[`reduce 合并相同 key 1`] = `
+ReduceResult {
+  "data": Map {
+    "香蕉" => ReduceResultItem {
+      "value": ICUItem {
+        "dumpStr": "{description, select, a{香蕉} b{香蕉} other{香蕉}}",
+        "translates": Array [
+          "香蕉",
+        ],
+      },
+    },
+    "苹果 {name}" => ReduceResultItem {
+      "value": ICUItem {
+        "dumpStr": "苹果 {name}",
+        "translates": Array [
+          "苹果 {name}",
+        ],
+      },
+    },
+    "西瓜" => ReduceResultItem {
+      "value": ICUItem {
+        "dumpStr": "西瓜",
+        "translates": Array [
+          "西瓜",
+        ],
+      },
+    },
+  },
+}
+`;
+
+exports[`reduce 新增 & 删除 1`] = `
+ReduceResult {
+  "data": Map {
+    "苹果 {name}" => ReduceResultItem {
+      "value": ICUItem {
+        "dumpStr": "苹果 {name}",
+        "translates": Array [
+          "苹果 {name}",
+        ],
+      },
+    },
+    "香蕉" => ReduceResultItem {
+      "value": ICUItem {
+        "dumpStr": "{description, select, a{香蕉} b{香蕉} c{香蕉}}",
+        "translates": Array [
+          "香蕉",
+        ],
+      },
+    },
+  },
+}
+`;

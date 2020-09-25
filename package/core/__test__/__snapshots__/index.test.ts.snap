@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normal 1`] = `
+Object {
+  "en": Object {
+    "苹果": "{description, select, aaa{apple} other{apple}}",
+    "西瓜": "西瓜_zh-cn_en",
+    "香蕉": "香蕉_zh-cn_en",
+  },
+  "zh-cn": Object {
+    "苹果": "苹果",
+    "西瓜": "西瓜",
+    "香蕉": "香蕉",
+  },
+}
+`;
+
+exports[`自定义输出 js: /i18n/zh-cn.js 1`] = `
+"module.export = {
+  \\"中文a\\": \\"中文a\\"
+}"
+`;
+
+exports[`自定义输出 js: /i18n/zh-cn.json 1`] = `
+"{
+  \\"中文a\\": \\"中文a\\"
+}"
+`;

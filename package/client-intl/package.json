@@ -12,6 +12,7 @@
     "url": "git+https://github.com/concefly/awesome-i18n.git"
   },
   "scripts": {
+    "prepublish": "npm run build",
     "build": "tsc -p tsconfig-build.json --outDir ./dist"
   },
   "bugs": {
@@ -21,7 +22,8 @@
     "typescript": "^3.1.6"
   },
   "dependencies": {
-    "intl-messageformat": "^2.2.0"
+    "intl-messageformat": "^2.2.0",
+    "fast-memoize": "^2.5.2"
   },
   "sideEffect": false
 }

@@ -3,5 +3,5 @@
     "package/*"
   ],
   "version": "0.2.4",
-  "npmClient": "npm"
+  "npmClient": "tnpm"
 }
