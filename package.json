@@ -7,9 +7,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean",
-    "test": "lerna run test",
     "ci": "lerna run ci",
     "build": "lerna run build",
-    "npm-publish": "npm run test && npm run build && lerna publish"
+    "npm-publish": "npm run ci && npm run build && lerna publish"
   }
 }

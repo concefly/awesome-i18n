@@ -17,15 +17,6 @@ export interface IConfig {
   reducer: string;
   translator: string | BaseTranslator;
 
-  /** 自定义输出 */
-  generator?: (props: {
-    lang: string;
-    result: ILocalizeMsgMap;
-  }) => Promise<{
-    filePath: string;
-    content: string;
-  }>;
-
   logger?: typeof BaseLog | null;
 
   hook?: {

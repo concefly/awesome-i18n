@@ -53,38 +53,3 @@ test('normal', async () => {
   const result = await i18n.run();
   expect(result).toMatchSnapshot();
 });
-
-test('自定义输出 js', async () => {
-  const mfs = new MemoryFileSystem();
-
-  mfs.writeFileSync('/a.js', `<div>{__('中文a')}</div>`, 'utf-8');
-
-  mfs.mkdirSync('/i18n');
-
-  const i18n = new (class extends AwesomeI18n {
-    getInputFiles() {
-      return ['/a.js'];
-    }
-    getFs() {
-      return mfs as any;
-    }
-  })({
-    ...defaultConfig,
-    langs: ['zh-cn'],
-    output: '/i18n',
-    translator: new FakeTranslator(),
-    generator: async ({ lang, result }) => {
-      expect(lang).toEqual('zh-cn');
-      expect(result);
-      return {
-        filePath: 'zh-cn.js',
-        content: `module.export = ${JSON.stringify(result, null, 2)}`,
-      };
-    },
-  });
-  await i18n.run();
-
-  ['/i18n/zh-cn.json', '/i18n/zh-cn.js'].forEach(filePath => {
-    expect(mfs.readFileSync(filePath, 'utf-8')).toMatchSnapshot(filePath);
-  });
-});

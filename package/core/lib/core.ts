@@ -136,14 +136,6 @@ export class AwesomeI18n {
    */
   async dumpLang(result: { [key: string]: string }, lang: string) {
     this.dumpJSON(result, `${lang}.json`);
-
-    if (this.config.generator) {
-      const p = await this.config.generator({ lang, result });
-      this.dumpJSON(
-        p.content,
-        p.filePath.startsWith('/') ? p.filePath : path.join(this.config.output, p.filePath)
-      );
-    }
   }
 
   async run() {

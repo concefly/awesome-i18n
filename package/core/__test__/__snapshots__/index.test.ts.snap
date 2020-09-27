@@ -14,15 +14,3 @@ Object {
   },
 }
 `;
-
-exports[`自定义输出 js: /i18n/zh-cn.js 1`] = `
-"module.export = {
-  \\"中文a\\": \\"中文a\\"
-}"
-`;
-
-exports[`自定义输出 js: /i18n/zh-cn.json 1`] = `
-"{
-  \\"中文a\\": \\"中文a\\"
-}"
-`;
