@@ -1,6 +1,6 @@
 {
   "name": "ai18n-client",
-  "version": "0.2.0",
+  "version": "2.0.0",
   "homepage": "https://github.com/concefly/awesome-i18n#readme",
   "license": "ISC",
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
     "url": "https://github.com/concefly/awesome-i18n/issues"
   },
   "devDependencies": {
-    "ai18n-prettier": "^1.0.0",
+    "ai18n-prettier": "^2.0.0",
     "prettier": "^2.1.2",
     "typescript": "^3.1.6"
   },

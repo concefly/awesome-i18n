@@ -1,6 +1,6 @@
 {
   "name": "ai18n-translator-youdao",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "huize.hwj <huize.hwj@alipay.com>",
   "homepage": "https://github.com/concefly/awesome-i18n#readme",
   "license": "ISC",
@@ -21,10 +21,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "spark-md5": "^3.0.0",
-    "ai18n-type": "^1.0.0"
+    "ai18n-type": "^2.0.0"
   },
   "devDependencies": {
-    "ai18n-prettier": "^1.0.0",
+    "ai18n-prettier": "^2.0.0",
     "prettier": "^2.1.2"
   },
   "prettier": "ai18n-prettier",

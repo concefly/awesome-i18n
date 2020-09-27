@@ -1,14 +1,14 @@
 {
   "name": "ai18n-translator-google",
-  "version": "0.2.0",
+  "version": "2.0.0",
   "main": "./index.js",
   "dependencies": {
     "google-translate-api": "^2.3.0",
-    "ai18n-type": "^1.0.0"
+    "ai18n-type": "^2.0.0"
   },
   "gitHead": "218c48cf842684fe0bb5ea05ae77bd89caacd07f",
   "devDependencies": {
-    "ai18n-prettier": "^1.0.0",
+    "ai18n-prettier": "^2.0.0",
     "prettier": "^2.1.2"
   },
   "prettier": "ai18n-prettier",
