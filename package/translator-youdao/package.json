@@ -19,9 +19,9 @@
     "url": "https://github.com/concefly/awesome-i18n/issues"
   },
   "dependencies": {
+    "ai18n-type": "^2.0.0",
     "axios": "^0.18.0",
-    "spark-md5": "^3.0.0",
-    "ai18n-type": "^2.0.0"
+    "spark-md5": "^3.0.0"
   },
   "devDependencies": {
     "ai18n-prettier": "^2.0.0",
