@@ -1,5 +1,5 @@
-import { ICUItem } from "./icu";
-import { LoadResult, LoadResultItem } from "./loader";
+import { ICUItem } from './icu';
+import { LoadResult, LoadResultItem } from './loader';
 
 export interface ILocalizeMsgMap {
   [key: string]: string;

@@ -20,5 +20,11 @@
   "files": [
     "bin"
   ],
-  "gitHead": "542b5872b4777e342f2313b97b09666431cfc78a"
+  "scripts": {
+    "prettier": "prettier -c bin",
+    "lint": "npm run prettier",
+    "ci": "npm run lint && npm run test"
+  },
+  "gitHead": "542b5872b4777e342f2313b97b09666431cfc78a",
+  "prettier": "ai18n-prettier"
 }

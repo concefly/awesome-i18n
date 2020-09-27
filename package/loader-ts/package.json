@@ -15,8 +15,11 @@
   },
   "scripts": {
     "prepublish": "npm run build",
+    "prettier": "prettier -c lib",
     "test": "jest",
-    "build": "tsc -p tsconfig-build.json --outDir ./dist"
+    "build": "tsc -p tsconfig-build.json --outDir ./dist",
+    "lint": "npm run prettier",
+    "ci": "npm run lint && npm run test"
   },
   "jest": {
     "transform": {
@@ -31,5 +34,6 @@
       "json",
       "node"
     ]
-  }
+  },
+  "prettier": "ai18n-prettier"
 }

@@ -4,10 +4,7 @@ export interface ITranslateOpt {
 }
 
 export abstract class BaseTranslator {
-  abstract translate(
-    text: string,
-    opt: ITranslateOpt
-  ): Promise<{ message: string }>;
+  abstract translate(text: string, opt: ITranslateOpt): Promise<{ message: string }>;
 }
 
 export interface IBaseTranslator extends BaseTranslator {

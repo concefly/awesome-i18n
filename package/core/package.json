@@ -27,8 +27,8 @@
     "prepublish": "npm run build",
     "build": "tsc -p tsconfig-build.json --outDir ./dist",
     "lint": "npm run prettier",
-    "test": "jest",
-    "ci": "npm run lint && npm run test"
+    "ci": "npm run lint && npm run test",
+    "test": "jest"
   },
   "prettier": "ai18n-prettier",
   "jest": {

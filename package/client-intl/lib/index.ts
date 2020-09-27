@@ -1,5 +1,5 @@
-import IntlMessageFormat from "intl-messageformat";
-import memoize from "fast-memoize";
+import IntlMessageFormat from 'intl-messageformat';
+import memoize from 'fast-memoize';
 
 export interface MessageType {
   [key: string]: string;

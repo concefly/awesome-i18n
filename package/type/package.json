@@ -11,11 +11,15 @@
     "lodash": "^4.17.10"
   },
   "scripts": {
+    "prettier": "prettier -c lib",
     "build": "tsc -p tsconfig.json --outDir ./dist",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "lint": "npm run prettier",
+    "ci": "npm run lint"
   },
   "devDependencies": {
     "ai18n-prettier": "^1.0.0",
     "prettier": "^2.1.2"
-  }
+  },
+  "prettier": "ai18n-prettier"
 }

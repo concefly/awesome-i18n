@@ -9,5 +9,11 @@
   "devDependencies": {
     "ai18n-prettier": "^1.0.0",
     "prettier": "^2.1.2"
+  },
+  "prettier": "ai18n-prettier",
+  "scripts": {
+    "prettier": "prettier -c index.js",
+    "lint": "npm run prettier",
+    "ci": "npm run lint && npm run test"
   }
 }

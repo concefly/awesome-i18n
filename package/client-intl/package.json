@@ -12,8 +12,11 @@
     "url": "git+https://github.com/concefly/awesome-i18n.git"
   },
   "scripts": {
+    "prettier": "prettier -c lib",
     "prepublish": "npm run build",
-    "build": "tsc -p tsconfig-build.json --outDir ./dist"
+    "build": "tsc -p tsconfig-build.json --outDir ./dist",
+    "lint": "npm run prettier",
+    "ci": "npm run lint && npm run test"
   },
   "bugs": {
     "url": "https://github.com/concefly/awesome-i18n/issues"
@@ -27,5 +30,6 @@
     "fast-memoize": "^2.5.2",
     "intl-messageformat": "^2.2.0"
   },
-  "sideEffect": false
+  "sideEffect": false,
+  "prettier": "ai18n-prettier"
 }

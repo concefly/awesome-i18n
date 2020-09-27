@@ -1,7 +1,7 @@
 export class LoadResultItem {
   constructor(
     readonly key: string,
-    readonly description: string = "other",
+    readonly description: string = 'other',
     readonly extra?: {
       /** 已有的翻译文案 */
       readonly msg?: string;
@@ -18,7 +18,7 @@ export class LoadResult {
   }
 
   merge(incoming: LoadResult) {
-    incoming.list.forEach((d) => this.list.push(d));
+    incoming.list.forEach(d => this.list.push(d));
     return this;
   }
 }
