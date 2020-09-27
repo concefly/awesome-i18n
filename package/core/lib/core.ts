@@ -11,6 +11,7 @@ import {
   ReduceResult,
   IBaseTranslator,
   BaseLog,
+  ILocalizeMsgMap,
 } from 'ai18n-type';
 
 export class AwesomeI18n {
@@ -33,17 +34,6 @@ export class AwesomeI18n {
 
   readFile(filePath: string) {
     return this.getFs().readFileSync(filePath, 'utf-8');
-  }
-
-  getDumpFilePath(lang: string) {
-    if (!this.getFs().existsSync(this.config.output)) {
-      this.getFs().mkdirSync(this.config.output);
-    }
-    const filePath = path.join(this.config.output, `${lang}.json`);
-    if (!this.getFs().existsSync(filePath)) {
-      this.getFs().writeFileSync(filePath, '{}', 'utf-8');
-    }
-    return filePath;
   }
 
   getTranslator(): BaseTranslator {
@@ -118,24 +108,40 @@ export class AwesomeI18n {
     return localizeMsgMap;
   }
 
+  async dumpJSON(data: any, filename: string) {
+    // 创建文件夹
+    if (!this.getFs().existsSync(this.config.output)) {
+      this.getFs().mkdirSync(this.config.output);
+    }
+
+    const filePath = path.join(this.config.output, filename);
+    const content = JSON.stringify(data, null, 2);
+
+    this.logger?.log(`[导出] ${filename}`);
+    this.getFs().writeFileSync(filePath, content, { encoding: 'utf-8' });
+  }
+
+  /**
+   * 读取多语言文件
+   */
+  async getLang(lang: string): Promise<ILocalizeMsgMap | undefined> {
+    const filename = path.join(this.config.output, `${lang}.json`);
+    if (!this.getFs().existsSync(filename)) return;
+
+    return JSON.parse(this.readFile(filename));
+  }
+
   /**
    * 导出多语言文件
    */
-  async dump(result: { [key: string]: string }, lang: string) {
-    const filePath = this.getDumpFilePath(lang);
-    const content = JSON.stringify(result, null, 2);
-
-    this.logger?.log(`[导出][${lang}] -> ${filePath}`);
-    this.getFs().writeFileSync(filePath, content, { encoding: 'utf-8' });
+  async dumpLang(result: { [key: string]: string }, lang: string) {
+    this.dumpJSON(result, `${lang}.json`);
 
     if (this.config.generator) {
       const p = await this.config.generator({ lang, result });
-      this.getFs().writeFileSync(
-        p.filePath.startsWith('/') ? p.filePath : path.join(this.config.output, p.filePath),
+      this.dumpJSON(
         p.content,
-        {
-          encoding: 'utf-8',
-        }
+        p.filePath.startsWith('/') ? p.filePath : path.join(this.config.output, p.filePath)
       );
     }
   }
@@ -190,9 +196,8 @@ export class AwesomeI18n {
 
     // 循环处理每种语言
     for (const lang of this.config.langs) {
-      const msgJson = JSON.parse(this.readFile(this.getDumpFilePath(lang)));
-      const extractResult = reducerIns.extract(msgJson);
-
+      const msgJson = await this.getLang(lang);
+      const extractResult = reducerIns.extract(msgJson || {});
       const reduceResult = reducerIns.reduce(loaderResult, extractResult);
 
       this.logger?.log(`[合并文案][${lang}] ${reduceResult.data.size}`);
@@ -203,7 +208,7 @@ export class AwesomeI18n {
       // 字段排序
       const sortedTranslateResult = _.pick(translateResult, _.keys(translateResult).sort());
 
-      await this.dump(sortedTranslateResult, lang);
+      await this.dumpLang(sortedTranslateResult, lang);
       finalMap[lang] = sortedTranslateResult;
     }
 
