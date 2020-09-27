@@ -4,11 +4,13 @@ exports[`tsx 1`] = `
 LoadResult {
   "list": Array [
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文2",
     },
   ],
@@ -19,7 +21,8 @@ exports[`只有 key 1`] = `
 LoadResult {
   "list": Array [
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
   ],
@@ -30,7 +33,8 @@ exports[`嵌套 1`] = `
 LoadResult {
   "list": Array [
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
   ],
@@ -42,42 +46,52 @@ LoadResult {
   "list": Array [
     LoadResultItem {
       "description": "中文",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
     LoadResultItem {
-      "description": undefined,
+      "description": "other",
+      "extra": undefined,
       "key": "中文",
     },
   ],
