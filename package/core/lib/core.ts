@@ -1,8 +1,8 @@
-import * as glob from "glob";
-import * as _ from "lodash";
-import * as fs from "fs";
-import * as path from "path";
-import { IConfig, getDefaultConfig } from "./config";
+import * as glob from 'glob';
+import * as _ from 'lodash';
+import * as fs from 'fs';
+import * as path from 'path';
+import { IConfig, getDefaultConfig } from './config';
 import {
   IBaseLoader,
   IBaseReducer,
@@ -10,7 +10,7 @@ import {
   LoadResult,
   ReduceResult,
   IBaseTranslator,
-} from "ai18n-type";
+} from 'ai18n-type';
 
 export class AwesomeI18n {
   config: IConfig = getDefaultConfig();
@@ -32,7 +32,7 @@ export class AwesomeI18n {
   }
 
   readFile(filePath: string) {
-    return this.getFs().readFileSync(filePath, "utf-8");
+    return this.getFs().readFileSync(filePath, 'utf-8');
   }
 
   getDumpFilePath(lang: string) {
@@ -41,7 +41,7 @@ export class AwesomeI18n {
     }
     const filePath = path.join(this.config.output, `${lang}.json`);
     if (!this.getFs().existsSync(filePath)) {
-      this.getFs().writeFileSync(filePath, "{}", "utf-8");
+      this.getFs().writeFileSync(filePath, '{}', 'utf-8');
     }
     return filePath;
   }
@@ -49,7 +49,7 @@ export class AwesomeI18n {
   getTranslator(): BaseTranslator {
     const { translator } = this.config;
 
-    if (typeof translator === "string") {
+    if (typeof translator === 'string') {
       const Cls: IBaseTranslator = require(translator).default;
       return new Cls();
     }
@@ -63,16 +63,13 @@ export class AwesomeI18n {
   /**
    * 翻译到指定语言
    */
-  async translate(
-    reduceResult: ReduceResult,
-    lang: string
-  ): Promise<{ [key: string]: string }> {
+  async translate(reduceResult: ReduceResult, lang: string): Promise<{ [key: string]: string }> {
     const { defaultLang } = this.config;
     const translator = this.getTranslator();
 
     const translates = new Set<string>();
-    reduceResult.data.forEach((d) => {
-      d.value.translates.forEach((t) => translates.add(t));
+    reduceResult.data.forEach(d => {
+      d.value.translates.forEach(t => translates.add(t));
     });
 
     // 所有需要翻译的 keyword
@@ -83,7 +80,7 @@ export class AwesomeI18n {
     const keywordMap: { [key: string]: string } = {};
     for (const chunk of chunkList) {
       const temp = await Promise.all(
-        _.map(chunk, (k) => {
+        _.map(chunk, k => {
           // 若目标语言 === 默认语言，则原样返回
           if (defaultLang === lang)
             return {
@@ -92,11 +89,11 @@ export class AwesomeI18n {
             };
           return translator
             .translate(k, { from: defaultLang, to: lang })
-            .then((r) => ({
+            .then(r => ({
               ...r,
               origin: k,
             }))
-            .catch((e) => {
+            .catch(e => {
               console.error(e);
               return {
                 message: k,
@@ -106,22 +103,17 @@ export class AwesomeI18n {
         })
       );
 
-      _.forEach(temp, (t) => {
+      _.forEach(temp, t => {
         keywordMap[t.origin] = t.message;
-        this.config.hook?.afterTranslate?.(
-          t.origin,
-          t.message,
-          defaultLang,
-          lang
-        );
+        this.config.hook?.afterTranslate?.(t.origin, t.message, defaultLang, lang);
       });
     }
 
-    const localizeMsgMap = reduceResult.toLocalizeMsgMap((t) => {
+    const localizeMsgMap = reduceResult.toLocalizeMsgMap(t => {
       let msg = t.value.dumpStr;
 
       // 替换翻译文案
-      t.value.translates.forEach((k) => {
+      t.value.translates.forEach(k => {
         msg = msg.replace(k, keywordMap[k]);
       });
 
@@ -139,18 +131,16 @@ export class AwesomeI18n {
     const content = JSON.stringify(result, null, 2);
 
     this.getFs().writeFileSync(filePath, content, {
-      encoding: "utf-8",
+      encoding: 'utf-8',
     });
 
     if (this.config.generator) {
       const p = await this.config.generator({ lang, result });
       this.getFs().writeFileSync(
-        p.filePath.startsWith("/")
-          ? p.filePath
-          : path.join(this.config.output, p.filePath),
+        p.filePath.startsWith('/') ? p.filePath : path.join(this.config.output, p.filePath),
         p.content,
         {
-          encoding: "utf-8",
+          encoding: 'utf-8',
         }
       );
     }
@@ -161,24 +151,18 @@ export class AwesomeI18n {
 
     // load，提取所有多语言文案
     const loaderResult = _.chain(inputFiles)
-      .map((filePath) => {
-        const loaders = _.filter(this.config.loader, ({ test }) =>
-          test.test(filePath)
-        );
-        if (loaders.length === 0)
-          throw new Error(`${filePath} 找不到对应的 loader`);
-        return _.map(loaders, (lo) => ({ ...lo, filePath }));
+      .map(filePath => {
+        const loaders = _.filter(this.config.loader, ({ test }) => test.test(filePath));
+        if (loaders.length === 0) throw new Error(`${filePath} 找不到对应的 loader`);
+        return _.map(loaders, lo => ({ ...lo, filePath }));
       })
       .flatten()
-      .map((loader) => {
+      .map(loader => {
         const Loader: IBaseLoader = require(loader.use).default;
 
         this.config.hook?.beforeLoad?.(loader.filePath);
 
-        const loadResult = new Loader().parse(
-          this.readFile(loader.filePath),
-          loader.filePath
-        );
+        const loadResult = new Loader().parse(this.readFile(loader.filePath), loader.filePath);
 
         this.config.hook?.afterLoad?.(loader.filePath, loadResult);
 
@@ -211,10 +195,7 @@ export class AwesomeI18n {
       const translateResult = await this.translate(reduceResult, lang);
 
       // 字段排序
-      const sortedTranslateResult = _.pick(
-        translateResult,
-        _.keys(translateResult).sort()
-      );
+      const sortedTranslateResult = _.pick(translateResult, _.keys(translateResult).sort());
 
       await this.dump(sortedTranslateResult, lang);
       finalMap[lang] = sortedTranslateResult;

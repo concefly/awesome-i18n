@@ -8,8 +8,8 @@
     "ts-jest": "^23.1.4"
   },
   "dependencies": {
-    "typescript": "^3.0.3",
-    "ai18n-type": "^1.0.0"
+    "ai18n-type": "^1.0.0",
+    "typescript": "^3.0.3"
   },
   "scripts": {
     "prepublish": "npm run build",
