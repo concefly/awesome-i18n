@@ -93,35 +93,57 @@ export default class Reducer extends BaseReducer {
         from: 'src',
       }));
 
+      /** 尝试找已存在的翻译文案 */
+      const tryGetExistMsg = (descList: typeof incomingList) => {
+        // 首先找 src 当前 description 的列表
+        const msg =
+          descList.find(d => d.from === 'src' && d.d.extra?.msg)?.d.extra?.msg ||
+          // 然后找 src 当前 key 的列表
+          srcList.find(d => d.d.extra?.msg)?.d.extra?.msg;
+
+        return msg;
+      };
+
       // 按 description 分组
       const descGroup = _.groupBy([...incomingList, ...srcList], d => d.d.description);
 
-      const translates = new Set<string>();
-      let optionList: string[] = [];
-      _.map(descGroup, (descList, desc) => {
+      if (_.size(descGroup) === 1) {
+        // 只有一个 description 分组
+        const descList = descGroup[_.keys(descGroup)[0]];
+
         // 尝试找翻译文案
-        const msg =
-          // 首先找 src 当前 description 的列表
-          descList.find(d => d.from === 'src' && d.d.extra?.msg)?.d.extra?.msg ||
-          // 然后找 src 当前 key 的列表
-          srcList.find(d => d.d.extra?.msg)?.d.extra?.msg ||
-          // 最后回退 key
-          key;
+        const msg = tryGetExistMsg(descList);
 
-        if (msg === key) translates.add(key);
+        result.data.set(
+          key,
+          new ReduceResultItem(
+            msg
+              ? // 已有翻译文案，直接复用
+                new ICUItem(msg)
+              : new ICUItem(key, [key])
+          )
+        );
+      } else {
+        // 有多个 description 分组
+        const translates = new Set<string>();
+        let optionList: string[] = [];
+        _.map(descGroup, (descList, desc) => {
+          const msg = tryGetExistMsg(descList);
+          if (!msg) translates.add(key);
 
-        optionList.push(`${desc}{${msg}}`);
-      });
+          optionList.push(`${desc}{${msg || key}}`);
+        });
 
-      // 排序
-      optionList.sort();
+        // 排序
+        optionList.sort();
 
-      result.data.set(
-        key,
-        new ReduceResultItem(
-          new ICUItem(`{description, select, ${optionList.join(' ')}}`, [...translates])
-        )
-      );
+        result.data.set(
+          key,
+          new ReduceResultItem(
+            new ICUItem(`{description, select, ${optionList.join(' ')}}`, [...translates])
+          )
+        );
+      }
     });
 
     return result;

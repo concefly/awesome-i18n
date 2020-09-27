@@ -1,7 +1,9 @@
+export const DEFAULT_DESCRIPTION = 'other';
+
 export class LoadResultItem {
   constructor(
     readonly key: string,
-    readonly description: string = 'other',
+    readonly description: string = DEFAULT_DESCRIPTION,
     readonly extra?: {
       /** 已有的翻译文案 */
       readonly msg?: string;

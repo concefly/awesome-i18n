@@ -1,16 +1,23 @@
 const translate = require('google-translate-api');
+const { BaseTranslator } = require('ai18n-type');
 
-/**
- * 执行翻译
- *
- * @param {string} text   原文
- * @param {*} opt.from    原文语言码
- * @param {*} opt.to      译文语言码
- */
-module.exports = (text, opt) =>
-  translate(text, {
-    from: opt.from,
-    to: opt.to,
-  }).then(res => ({
-    message: res.text,
-  }));
+class GoogleTranslator extends BaseTranslator {
+  parallel = 1;
+
+  /**
+   * 执行翻译
+   *
+   * @param {string} text   原文
+   * @param {{ from: string, to: string }} opt
+   */
+  translate(text, opt) {
+    return translate(text, {
+      from: opt.from,
+      to: opt.to,
+    }).then(res => ({
+      message: res.text,
+    }));
+  }
+}
+
+module.exports = GoogleTranslator;

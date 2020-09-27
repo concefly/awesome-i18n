@@ -1,14 +1,13 @@
 #!/usr/bin/env node
-
-const yargs = require('yargs');
 const AI18n = require('ai18n-core').default;
 const { getUserConfig } = require('./config');
 const diffUtil = require('jsondiffpatch');
+const yargs = require('yargs');
 
 yargs
   .command(
-    'all',
-    '全流程执行 i18n',
+    'run',
+    '执行 i18n',
     yargs => {},
     argv => {
       const hook = {
@@ -77,7 +76,7 @@ yargs
     default: false,
   })
   .option('config', {
-    default: './i18nrc.js',
+    default: './ai18n.json',
   })
   .option('check', {
     default: false,

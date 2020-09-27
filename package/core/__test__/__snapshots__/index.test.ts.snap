@@ -3,7 +3,7 @@
 exports[`normal 1`] = `
 Object {
   "en": Object {
-    "苹果": "{description, select, aaa{apple} other{apple}}",
+    "苹果": "apple",
     "西瓜": "西瓜_zh-cn_en",
     "香蕉": "香蕉_zh-cn_en",
   },

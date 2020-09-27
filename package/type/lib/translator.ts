@@ -4,6 +4,9 @@ export interface ITranslateOpt {
 }
 
 export abstract class BaseTranslator {
+  /** 并发请求数 */
+  parallel?: number;
+
   abstract translate(text: string, opt: ITranslateOpt): Promise<{ message: string }>;
 }
 

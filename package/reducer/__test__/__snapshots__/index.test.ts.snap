@@ -33,7 +33,7 @@ ReduceResult {
   "data": Map {
     "香蕉" => ReduceResultItem {
       "value": ICUItem {
-        "dumpStr": "{description, select, other{banana}}",
+        "dumpStr": "banana",
         "translates": Array [],
       },
     },

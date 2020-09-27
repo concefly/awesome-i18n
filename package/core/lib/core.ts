@@ -2,7 +2,7 @@ import * as glob from 'glob';
 import * as _ from 'lodash';
 import * as fs from 'fs';
 import * as path from 'path';
-import { IConfig, getDefaultConfig } from './config';
+import { IConfig } from './config';
 import {
   IBaseLoader,
   IBaseReducer,
@@ -10,25 +10,25 @@ import {
   LoadResult,
   ReduceResult,
   IBaseTranslator,
+  BaseLog,
 } from 'ai18n-type';
 
 export class AwesomeI18n {
-  config: IConfig = getDefaultConfig();
+  constructor(readonly config: IConfig) {}
 
-  constructor(config: Partial<IConfig> = {}) {
-    // 合并自定义 config
-    this.config = {
-      ...this.config,
-      ...config,
-    };
-  }
+  private logger = this.config.logger === null ? null : new (this.config.logger || BaseLog)();
 
   getFs() {
     return fs;
   }
 
   getInputFiles() {
-    return glob.sync(this.config.input);
+    return glob.sync(this.config.input, {
+      absolute: true,
+      nodir: true,
+      dot: true,
+      ignore: this.config.ignore || [],
+    });
   }
 
   readFile(filePath: string) {
@@ -50,7 +50,7 @@ export class AwesomeI18n {
     const { translator } = this.config;
 
     if (typeof translator === 'string') {
-      const Cls: IBaseTranslator = require(translator).default;
+      const Cls: IBaseTranslator = require(translator).default || require(translator);
       return new Cls();
     }
 
@@ -76,35 +76,30 @@ export class AwesomeI18n {
     const keywords = [...translates];
 
     // 按语言分组串行翻译
-    const chunkList = _.chunk(keywords, 5);
+    const chunkList = _.chunk(keywords, translator.parallel || 5);
     const keywordMap: { [key: string]: string } = {};
     for (const chunk of chunkList) {
       const temp = await Promise.all(
         _.map(chunk, k => {
           // 若目标语言 === 默认语言，则原样返回
-          if (defaultLang === lang)
-            return {
-              message: k,
-              origin: k,
-            };
+          if (defaultLang === lang) return { message: k, origin: k };
+
           return translator
             .translate(k, { from: defaultLang, to: lang })
-            .then(r => ({
-              ...r,
-              origin: k,
-            }))
+            .then(r => ({ ...r, origin: k }))
             .catch(e => {
-              console.error(e);
-              return {
-                message: k,
-                origin: k,
-              };
+              this.logger?.warn(e);
+
+              // 出错情况下，message 留空，给用户自己填
+              return { message: '', origin: k };
             });
         })
       );
 
       _.forEach(temp, t => {
         keywordMap[t.origin] = t.message;
+        if (t.origin !== t.message) this.logger?.log(`[翻译][${lang}] ${t.origin} -> ${t.message}`);
+
         this.config.hook?.afterTranslate?.(t.origin, t.message, defaultLang, lang);
       });
     }
@@ -130,9 +125,8 @@ export class AwesomeI18n {
     const filePath = this.getDumpFilePath(lang);
     const content = JSON.stringify(result, null, 2);
 
-    this.getFs().writeFileSync(filePath, content, {
-      encoding: 'utf-8',
-    });
+    this.logger?.log(`[导出][${lang}] -> ${filePath}`);
+    this.getFs().writeFileSync(filePath, content, { encoding: 'utf-8' });
 
     if (this.config.generator) {
       const p = await this.config.generator({ lang, result });
@@ -148,34 +142,44 @@ export class AwesomeI18n {
 
   async run() {
     const inputFiles = this.getInputFiles();
+    this.logger?.log(`[载入源文件] ${inputFiles.length}`);
 
     // load，提取所有多语言文案
     const loaderResult = _.chain(inputFiles)
       .map(filePath => {
-        const loaders = _.filter(this.config.loader, ({ test }) => test.test(filePath));
+        const loaders = _.filter(this.config.loader, ({ test }) => {
+          const reg =
+            typeof (test as any).test === 'function' ? (test as RegExp) : new RegExp(test);
+
+          return reg.test(filePath);
+        });
         if (loaders.length === 0) throw new Error(`${filePath} 找不到对应的 loader`);
+
         return _.map(loaders, lo => ({ ...lo, filePath }));
       })
       .flatten()
       .map(loader => {
-        const Loader: IBaseLoader = require(loader.use).default;
-
+        const Loader: IBaseLoader = require(loader.use).default || require(loader.use);
         this.config.hook?.beforeLoad?.(loader.filePath);
 
-        const loadResult = new Loader().parse(this.readFile(loader.filePath), loader.filePath);
+        const fileLoaderResult = new Loader().parse(
+          this.readFile(loader.filePath),
+          loader.filePath
+        );
 
-        this.config.hook?.afterLoad?.(loader.filePath, loadResult);
-
-        return loadResult;
+        this.config.hook?.afterLoad?.(loader.filePath, fileLoaderResult);
+        return fileLoaderResult;
       })
       .flatten()
       .reduce((r, c) => r.merge(c), new LoadResult([]))
       .value();
 
+    this.logger?.log(`[载入文案] ${loaderResult.list.length}`);
     this.config.hook?.afterLoadAll?.(loaderResult);
 
     // reduce，合并多语言文案
-    const Reducer: IBaseReducer = require(this.config.reducer).default;
+    const Reducer: IBaseReducer =
+      require(this.config.reducer).default || require(this.config.reducer);
     const reducerIns = new Reducer();
 
     let finalMap: {
@@ -190,6 +194,8 @@ export class AwesomeI18n {
       const extractResult = reducerIns.extract(msgJson);
 
       const reduceResult = reducerIns.reduce(loaderResult, extractResult);
+
+      this.logger?.log(`[合并文案][${lang}] ${reduceResult.data.size}`);
       this.config.hook?.afterReduce?.(reduceResult);
 
       const translateResult = await this.translate(reduceResult, lang);
