@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "dist/bin/index.js",
   "devDependencies": {
-    "@types/node": "^10.10.3"
+    "@types/node": "^10.10.3",
+    "ai18n-prettier": "^1.0.0",
+    "prettier": "^2.1.2"
   },
   "dependencies": {
     "jsondiffpatch": "^0.3.11",

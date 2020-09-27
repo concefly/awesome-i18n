@@ -5,5 +5,9 @@
   "dependencies": {
     "google-translate-api": "^2.3.0"
   },
-  "gitHead": "218c48cf842684fe0bb5ea05ae77bd89caacd07f"
+  "gitHead": "218c48cf842684fe0bb5ea05ae77bd89caacd07f",
+  "devDependencies": {
+    "ai18n-prettier": "^1.0.0",
+    "prettier": "^2.1.2"
+  }
 }

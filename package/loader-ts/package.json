@@ -4,7 +4,9 @@
   "main": "dist/index.js",
   "devDependencies": {
     "@types/jest": "^23.3.2",
+    "ai18n-prettier": "^1.0.0",
     "jest": "^23.5.0",
+    "prettier": "^2.1.2",
     "ts-jest": "^23.1.4"
   },
   "dependencies": {

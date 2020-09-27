@@ -13,5 +13,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json --outDir ./dist",
     "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "ai18n-prettier": "^1.0.0",
+    "prettier": "^2.1.2"
   }
 }
