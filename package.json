@@ -9,6 +9,6 @@
     "clean": "lerna clean",
     "ci": "lerna run ci",
     "build": "lerna run build",
-    "npm-publish": "npm run ci && npm run build && lerna publish"
+    "npm-publish": "npm run ci && lerna publish"
   }
 }
