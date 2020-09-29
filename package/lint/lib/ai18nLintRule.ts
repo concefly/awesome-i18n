@@ -11,7 +11,7 @@ export function walk(ctx: Lint.WalkContext<void>) {
 
   // 检查 jsx 里的中文字面量
   const visitStringLiteral = (n: ts.StringLiteral) => {
-    const text = n.text;
+    let text = n.text;
     if (!text.match(cnReg)) return;
 
     if (
@@ -22,13 +22,17 @@ export function walk(ctx: Lint.WalkContext<void>) {
       return;
     }
 
+    text = text.trim();
+
     if (ts.isJsxAttribute(n.parent)) {
-      // 跳过 jsx attr 里的
+      // jsx attr 里的，形如 <div id="西瓜" />
+      const fix = new Lint.Replacement(n.getStart(), n.getWidth(), `{__('${text}')}`);
+      ctx.addFailureAtNode(n, `"${text}" 未做国际化处理`, fix);
       return;
     }
 
-    const fix = new Lint.Replacement(n.getStart(), n.getWidth(), `__('${text.trim()}')`);
-    ctx.addFailureAtNode(n, `"${text.trim()}" 未做国际化处理`, fix);
+    const fix = new Lint.Replacement(n.getStart(), n.getWidth(), `__('${text}')`);
+    ctx.addFailureAtNode(n, `"${text}" 未做国际化处理`, fix);
   };
 
   // 检查 <div>中文</div> 这种

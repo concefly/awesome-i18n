@@ -23,7 +23,7 @@ const inspectCtx = (ctx: WalkContext) => {
 
 describe('ai18nLintRule', () => {
   it('jsx element', () => {
-    const ctx = createLintCtx('const a = <div>苹果<span>{"香蕉"}</span></div>');
+    const ctx = createLintCtx('const a = <div title="标题">苹果<span title="标签">{"香蕉"}</span></div>');
     walk(ctx);
     expect(inspectCtx(ctx)).toMatchSnapshot();
   });
@@ -34,7 +34,7 @@ describe('ai18nLintRule', () => {
     expect(inspectCtx(ctx)).toMatchSnapshot();
   });
 
-  it.only('跳过非全中文字符串', () => {
+  it('跳过非全中文字符串', () => {
     const ctx = createLintCtx('const a = "苹果 xxx"');
     walk(ctx);
     expect(ctx.failures.length === 0);
