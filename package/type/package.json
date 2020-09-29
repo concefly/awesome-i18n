@@ -1,6 +1,6 @@
 {
   "name": "ai18n-type",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "main": "dist/index.js",
   "files": [
     "dist",
@@ -18,7 +18,7 @@
     "ci": "npm run lint"
   },
   "devDependencies": {
-    "ai18n-prettier": "^2.0.0",
+    "ai18n-prettier": "^2.1.0",
     "prettier": "^2.1.2"
   },
   "prettier": "ai18n-prettier"

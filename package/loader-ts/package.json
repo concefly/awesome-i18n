@@ -1,17 +1,17 @@
 {
   "name": "ai18n-loader-ts",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "main": "dist/index.js",
   "devDependencies": {
     "@types/jest": "^23.3.2",
-    "ai18n-prettier": "^2.0.0",
+    "ai18n-prettier": "^2.1.0",
     "jest": "^23.5.0",
     "prettier": "^2.1.2",
     "ts-jest": "^23.1.4",
     "typescript": "^3.0.3"
   },
   "dependencies": {
-    "ai18n-type": "^2.0.0"
+    "ai18n-type": "^2.1.0"
   },
   "peerDependencies": {
     "typescript": "^3.0.3"
