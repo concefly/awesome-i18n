@@ -1,4 +1,4 @@
-import { BaseTranslator, ILocalizeMsgMap, LoadResult, ReduceResult, BaseLog } from 'ai18n-type';
+import { BaseTranslator, LoadResult, ReduceResult, BaseLog, TranslateCtx } from 'ai18n-type';
 
 export interface IConfig {
   /** 输入文件 glob */
@@ -7,9 +7,6 @@ export interface IConfig {
 
   /** 输出目录 */
   output: string;
-
-  /** 源码语言 */
-  defaultLang: string;
 
   /** 翻译语言列表 */
   langs: string[];
@@ -23,7 +20,7 @@ export interface IConfig {
     beforeLoad?: (filePath: string) => void;
     afterLoad?: (filePath: string, result: any) => void;
     afterLoadAll?: (result: LoadResult) => void;
-    afterTranslate?: (src: string, result: string, from: string, to: string) => void;
+    afterTranslate?: (result: TranslateCtx) => void;
     afterReduce?: (result: ReduceResult) => void;
   };
 }

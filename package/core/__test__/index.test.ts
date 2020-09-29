@@ -1,6 +1,6 @@
 import AwesomeI18n from '../lib/index';
 import MemoryFileSystem = require('memory-fs');
-import { BaseTranslator, ITranslateOpt } from 'ai18n-type';
+import { BaseTranslator, TranslateCtx } from 'ai18n-type';
 
 const defaultConfig = {
   input: '.',
@@ -19,12 +19,13 @@ const defaultConfig = {
     },
   ],
   reducer: 'ai18n-reducer',
-  translator: 'ai18n-translator-google',
 };
 
 class FakeTranslator extends BaseTranslator {
-  async translate(text: string, opt: ITranslateOpt) {
-    return { message: `${text}_${opt.from}_${opt.to}` };
+  async translate(ctx: TranslateCtx) {
+    ctx.list.forEach(d => {
+      d.result = { message: `${d.text}_${d.from}_${d.to}` };
+    });
   }
 }
 

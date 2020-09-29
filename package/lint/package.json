@@ -10,17 +10,35 @@
     "build": "tsc -p tsconfig-build.json --outDir ./dist",
     "prepublish": "npm run build",
     "lint": "npm run prettier",
-    "ci": "npm run lint"
+    "ci": "npm run lint && npm test",
+    "test": "jest --runInBand"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.2",
     "ai18n-prettier": "^2.0.0",
     "prettier": "^2.1.2",
     "tslint": "^6.1.3",
-    "typescript": "^4.0.3"
+    "typescript": "^3.9.0",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.1.4"
   },
   "peerDependencies": {
     "tslint": "^6.1.3",
-    "typescript": "*"
+    "typescript": "^3.9.0"
   },
-  "prettier": "ai18n-prettier"
+  "prettier": "ai18n-prettier",
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/__test__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
 }

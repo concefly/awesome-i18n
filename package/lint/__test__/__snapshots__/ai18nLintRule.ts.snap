@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ai18nLintRule jsx StringLiteral 1`] = `
+Array [
+  Array [
+    "\\"苹果\\" 未做国际化处理",
+    Replacement {
+      "length": 4,
+      "start": 10,
+      "text": "__('苹果')",
+    },
+  ],
+]
+`;
+
+exports[`ai18nLintRule jsx element 1`] = `
+Array [
+  Array [
+    "\\"苹果\\" 未做国际化处理",
+    Replacement {
+      "length": 2,
+      "start": 15,
+      "text": "{ __('苹果') }",
+    },
+  ],
+  Array [
+    "\\"香蕉\\" 未做国际化处理",
+    Replacement {
+      "length": 4,
+      "start": 24,
+      "text": "__('香蕉')",
+    },
+  ],
+]
+`;
+
+exports[`ai18nLintRule 跳过已被 __ 和 __define 包裹的 1`] = `
+Array [
+  Array [
+    "\\"西瓜\\" 未做国际化处理",
+    Replacement {
+      "length": 4,
+      "start": 42,
+      "text": "__('西瓜')",
+    },
+  ],
+]
+`;

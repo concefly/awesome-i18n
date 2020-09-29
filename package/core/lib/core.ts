@@ -12,6 +12,8 @@ import {
   IBaseTranslator,
   BaseLog,
   ILocalizeMsgMap,
+  TranslateCtx,
+  TranslateItem,
 } from 'ai18n-type';
 
 export class AwesomeI18n {
@@ -54,52 +56,46 @@ export class AwesomeI18n {
    * 翻译到指定语言
    */
   async translate(reduceResult: ReduceResult, lang: string): Promise<{ [key: string]: string }> {
-    const { defaultLang } = this.config;
-    const translator = this.getTranslator();
-
-    const translates = new Set<string>();
+    const keywords = new Set<string>();
     reduceResult.data.forEach(d => {
-      d.value.translates.forEach(t => translates.add(t));
+      d.value.translates.forEach(t => keywords.add(t));
     });
 
+    // 没有要翻译的文本，直接退出
+    if (keywords.size === 0) return {};
+
+    const defaultLang = 'zh-cn';
+
     // 所有需要翻译的 keyword
-    const keywords = [...translates];
+    const transCtx = new TranslateCtx(
+      [...keywords].map(text => new TranslateItem(text, defaultLang, lang))
+    );
 
-    // 按语言分组串行翻译
-    const chunkList = _.chunk(keywords, translator.parallel || 5);
-    const keywordMap: { [key: string]: string } = {};
-    for (const chunk of chunkList) {
-      const temp = await Promise.all(
-        _.map(chunk, k => {
-          // 若目标语言 === 默认语言，则原样返回
-          if (defaultLang === lang) return { message: k, origin: k };
-
-          return translator
-            .translate(k, { from: defaultLang, to: lang })
-            .then(r => ({ ...r, origin: k }))
-            .catch(e => {
-              this.logger?.warn(e);
-
-              // 出错情况下，message 留空，给用户自己填
-              return { message: '', origin: k };
-            });
-        })
-      );
-
-      _.forEach(temp, t => {
-        keywordMap[t.origin] = t.message;
-        if (t.origin !== t.message) this.logger?.log(`[翻译][${lang}] ${t.origin} -> ${t.message}`);
-
-        this.config.hook?.afterTranslate?.(t.origin, t.message, defaultLang, lang);
+    // 执行翻译
+    if (lang === defaultLang) {
+      transCtx.list.forEach(d => {
+        d.result = { message: d.text };
       });
+    } else {
+      const translator = this.getTranslator();
+      await translator.translate(transCtx);
     }
+
+    this.config.hook?.afterTranslate?.(transCtx);
+
+    const keywordMap: { [key: string]: string } = {};
+    transCtx.list.forEach(d => {
+      if (d.result) {
+        keywordMap[d.text] = d.result.message;
+      }
+    });
 
     const localizeMsgMap = reduceResult.toLocalizeMsgMap(t => {
       let msg = t.value.dumpStr;
 
       // 替换翻译文案
       t.value.translates.forEach(k => {
-        msg = msg.replace(k, keywordMap[k]);
+        msg = msg.replace(k, keywordMap[k] || '');
       });
 
       return msg;
