@@ -62,7 +62,7 @@ export class AwesomeI18n {
     });
 
     // 没有要翻译的文本，直接退出
-    if (keywords.size === 0) return {};
+    if (keywords.size === 0) return reduceResult.toLocalizeMsgMap();
 
     const defaultLang = 'zh-cn';
 
