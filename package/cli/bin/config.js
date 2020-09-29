@@ -7,7 +7,6 @@ function getUserConfig(filePath) {
     input: '.',
     ignore: ['**/node_modules/**'],
     output: './i18n',
-    defaultLang: 'zh-cn',
     langs: ['zh-cn', 'en'],
     loader: [
       {
@@ -20,7 +19,7 @@ function getUserConfig(filePath) {
       },
     ],
     reducer: 'ai18n-reducer',
-    translator: 'ai18n-translator-google',
+    translator: 'ai18n-translator-manual',
 
     // 合并自定义配置
     ...config,
