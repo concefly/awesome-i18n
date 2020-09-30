@@ -1,3 +1,5 @@
+import { cnRegGlobal } from './const';
+
 export class TranslateItem {
   constructor(
     readonly text: string,
@@ -14,7 +16,7 @@ export class TranslateItem {
     const mapper = new Map<string, string>();
 
     // 匹配非中文字符段
-    const match = text.match(/([^\u4e00-\u9fa5]+)/g);
+    const match = text.match(cnRegGlobal);
 
     // 没有非中文部分，直接返回
     if (!match) return { text, mapper };

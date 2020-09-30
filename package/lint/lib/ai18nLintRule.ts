@@ -1,9 +1,6 @@
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
-import * as path from 'path';
-
-/** 中文正则 */
-const cnReg = /^[\u4e00-\u9fa5]+$/;
+import { cnReg } from 'ai18n-type';
 
 export function walk(ctx: Lint.WalkContext<void>) {
   // 跳过非 tsx 文件
@@ -14,9 +11,10 @@ export function walk(ctx: Lint.WalkContext<void>) {
     let text = n.text;
     if (!text.match(cnReg)) return;
 
+    const parent = n.parent;
     if (
-      ts.isCallExpression(n.parent) &&
-      ['__', '__define'].includes(n.parent.expression.getText())
+      ts.isCallExpression(parent) &&
+      ['__', '__define'].indexOf(parent.expression.getText()) >= 0
     ) {
       // 跳过 __ 和 __define
       return;

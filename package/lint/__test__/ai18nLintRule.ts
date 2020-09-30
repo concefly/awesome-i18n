@@ -23,7 +23,9 @@ const inspectCtx = (ctx: WalkContext) => {
 
 describe('ai18nLintRule', () => {
   it('jsx element', () => {
-    const ctx = createLintCtx('const a = <div title="标题">苹果<span title="标签">{"香蕉"}</span></div>');
+    const ctx = createLintCtx(
+      'const a = <div title="标题">苹果<span title="标签">{"香蕉"}</span></div>'
+    );
     walk(ctx);
     expect(inspectCtx(ctx)).toMatchSnapshot();
   });
@@ -37,11 +39,17 @@ describe('ai18nLintRule', () => {
   it('跳过非全中文字符串', () => {
     const ctx = createLintCtx('const a = "苹果 xxx"');
     walk(ctx);
-    expect(ctx.failures.length === 0);
+    expect(inspectCtx(ctx)).toMatchSnapshot();
   });
 
   it('跳过已被 __ 和 __define 包裹的', () => {
     const ctx = createLintCtx(`const a = __("苹果") + __define("香蕉") + foo("西瓜")`);
+    walk(ctx);
+    expect(inspectCtx(ctx)).toMatchSnapshot();
+  });
+
+  it('识别中文符号', () => {
+    const ctx = createLintCtx('const a = "苹果。，、？！；“”《》（）"');
     walk(ctx);
     expect(inspectCtx(ctx)).toMatchSnapshot();
   });

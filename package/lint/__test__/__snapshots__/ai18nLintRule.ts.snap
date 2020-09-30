@@ -50,6 +50,19 @@ Array [
 ]
 `;
 
+exports[`ai18nLintRule 识别中文符号 1`] = `
+Array [
+  Array [
+    "\\"苹果。，、？！；“”《》（）\\" 未做国际化处理",
+    Replacement {
+      "length": 16,
+      "start": 10,
+      "text": "__('苹果。，、？！；“”《》（）')",
+    },
+  ],
+]
+`;
+
 exports[`ai18nLintRule 跳过已被 __ 和 __define 包裹的 1`] = `
 Array [
   Array [
@@ -62,3 +75,5 @@ Array [
   ],
 ]
 `;
+
+exports[`ai18nLintRule 跳过非全中文字符串 1`] = `Array []`;
