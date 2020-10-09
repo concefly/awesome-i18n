@@ -60,10 +60,16 @@ export function walk(ctx: Lint.WalkContext<void>) {
 export class Rule extends Lint.Rules.AbstractRule {
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
     const options = this.getOptions();
-    const { ignores = [], forces = [] } = options.ruleArguments[0] as IOptions;
+    let { ignores = [], forces = [] } = options.ruleArguments[0] as IOptions;
 
-    const isInIgnoreList = ignores.some(k => sourceFile.fileName.includes(k));
-    const isInForceList = forces.some(k => sourceFile.fileName.includes(k));
+    // 大小写不敏感
+    ignores = ignores.map(k => k.toLowerCase());
+    forces = forces.map(k => k.toLowerCase());
+
+    const fileName = sourceFile.fileName.toLowerCase();
+
+    const isInIgnoreList = ignores.some(k => fileName.includes(k));
+    const isInForceList = forces.some(k => fileName.includes(k));
 
     const shouldIgnore = isInIgnoreList && !isInForceList;
     if (shouldIgnore) return [];
