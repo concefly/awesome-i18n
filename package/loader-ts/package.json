@@ -1,6 +1,6 @@
 {
   "name": "ai18n-loader-ts",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -14,7 +14,7 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
-    "ai18n-type": "^2.1.3"
+    "ai18n-type": "^2.1.4"
   },
   "peerDependencies": {
     "typescript": "^3.0.3"

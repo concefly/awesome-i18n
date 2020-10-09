@@ -1,12 +1,12 @@
 {
   "name": "ai18n-reducer",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "dependencies": {
-    "ai18n-type": "^2.1.3",
+    "ai18n-type": "^2.1.4",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
