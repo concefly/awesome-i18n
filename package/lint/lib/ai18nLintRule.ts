@@ -2,6 +2,11 @@ import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import { cnReg } from 'ai18n-type';
 
+export interface IOptions {
+  ignores?: string[];
+  forces?: string[];
+}
+
 export function walk(ctx: Lint.WalkContext<void>) {
   // 跳过非 tsx 文件
   if (!ctx.sourceFile.fileName.endsWith('tsx')) return;
@@ -55,11 +60,14 @@ export function walk(ctx: Lint.WalkContext<void>) {
 export class Rule extends Lint.Rules.AbstractRule {
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
     const options = this.getOptions();
-    const ignores = options.ruleArguments[0]?.ignores as string[];
-    const absIgnores: string[] = ignores.map(p => p.toLowerCase());
-    const filename = sourceFile.fileName.toLowerCase();
+    const { ignores = [], forces = [] } = options.ruleArguments[0] as IOptions;
 
-    if (absIgnores.some(ignore => filename.includes(ignore))) return [];
+    const isInIgnoreList = ignores.some(k => sourceFile.fileName.includes(k));
+    const isInForceList = forces.some(k => sourceFile.fileName.includes(k));
+
+    const shouldIgnore = isInIgnoreList && !isInForceList;
+    if (shouldIgnore) return [];
+
     return this.applyWithFunction(sourceFile, walk);
   }
 }
