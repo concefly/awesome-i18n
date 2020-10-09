@@ -1,4 +1,6 @@
-import { cnRegGlobal } from './const';
+import { cnRegCharList } from './const';
+
+const notCnReg = new RegExp(`([^${cnRegCharList}]+)`, 'g');
 
 export class TranslateItem {
   constructor(
@@ -16,7 +18,7 @@ export class TranslateItem {
     const mapper = new Map<string, string>();
 
     // 匹配非中文字符段
-    const match = text.match(cnRegGlobal);
+    const match = text.match(notCnReg);
 
     // 没有非中文部分，直接返回
     if (!match) return { text, mapper };
