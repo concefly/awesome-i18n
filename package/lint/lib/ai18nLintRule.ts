@@ -1,6 +1,8 @@
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
-import { cnReg } from 'ai18n-type';
+import { cnRegCharList } from 'ai18n-type';
+
+const cnReg = new RegExp(`[${cnRegCharList}]+`);
 
 export interface IOptions {
   ignores?: string[];

@@ -36,8 +36,8 @@ describe('ai18nLintRule', () => {
     expect(inspectCtx(ctx)).toMatchSnapshot();
   });
 
-  it('跳过非全中文字符串', () => {
-    const ctx = createLintCtx('const a = "苹果 xxx"');
+  it('有中文就要 lint', () => {
+    const ctx = createLintCtx('const a = "苹果 xxx"; const b = "apple"');
     walk(ctx);
     expect(inspectCtx(ctx)).toMatchSnapshot();
   });

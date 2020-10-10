@@ -50,6 +50,19 @@ Array [
 ]
 `;
 
+exports[`ai18nLintRule 有中文就要 lint 1`] = `
+Array [
+  Array [
+    "\\"苹果 xxx\\" 未做国际化处理",
+    Replacement {
+      "length": 8,
+      "start": 10,
+      "text": "__('苹果 xxx')",
+    },
+  ],
+]
+`;
+
 exports[`ai18nLintRule 识别中文符号 1`] = `
 Array [
   Array [
@@ -75,5 +88,3 @@ Array [
   ],
 ]
 `;
-
-exports[`ai18nLintRule 跳过非全中文字符串 1`] = `Array []`;
