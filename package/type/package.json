@@ -1,6 +1,6 @@
 {
   "name": "ai18n-type",
-  "version": "2.1.4",
+  "version": "2.1.7",
   "main": "dist/index.js",
   "files": [
     "dist",

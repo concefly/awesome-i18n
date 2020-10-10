@@ -1,6 +1,6 @@
 {
   "name": "ai18n-lint",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -14,7 +14,7 @@
     "test": "jest --runInBand"
   },
   "dependencies": {
-    "ai18n-type": "^2.1.4"
+    "ai18n-type": "^2.1.7"
   },
   "devDependencies": {
     "@types/jest": "^23.3.2",
