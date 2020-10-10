@@ -1,4 +1,12 @@
-import { BaseTranslator, LoadResult, ReduceResult, BaseLog, TranslateCtx } from 'ai18n-type';
+import {
+  BaseTranslator,
+  LoadResult,
+  ReduceResult,
+  BaseLog,
+  TranslateCtx,
+  ExtractResult,
+  ILocalizeMsgMap,
+} from 'ai18n-type';
 
 export interface IConfig {
   /** 输入文件 glob */
@@ -21,6 +29,15 @@ export interface IConfig {
     afterLoad?: (filePath: string, result: any) => void;
     afterLoadAll?: (result: LoadResult) => void;
     afterTranslate?: (result: TranslateCtx) => void;
-    afterReduce?: (result: ReduceResult) => void;
+    afterReduce?: (
+      result: ReduceResult,
+      extra: {
+        /** 代码提取结果 */
+        extractResult: ExtractResult;
+
+        /** 从本地读取的多语言 json */
+        localMsgJson: ILocalizeMsgMap;
+      }
+    ) => void;
   };
 }

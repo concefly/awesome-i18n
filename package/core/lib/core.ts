@@ -184,12 +184,12 @@ export class AwesomeI18n {
 
     // 循环处理每种语言
     for (const lang of this.config.langs) {
-      const msgJson = await this.getLang(lang);
-      const extractResult = reducerIns.extract(msgJson || {});
+      const localMsgJson = (await this.getLang(lang)) || {};
+      const extractResult = reducerIns.extract(localMsgJson);
       const reduceResult = reducerIns.reduce(loaderResult, extractResult);
 
       this.logger?.log(`[合并文案][${lang}] ${reduceResult.data.size}`);
-      this.config.hook?.afterReduce?.(reduceResult);
+      this.config.hook?.afterReduce?.(reduceResult, { extractResult, localMsgJson });
 
       const translateResult = await this.translate(reduceResult, lang);
 

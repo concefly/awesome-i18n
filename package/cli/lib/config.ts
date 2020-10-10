@@ -1,13 +1,14 @@
-const path = require('path');
+import * as path from 'path';
+import { IConfig } from 'ai18n-core';
 
-function getUserConfig(filePath) {
+export function getUserConfig(filePath: string): IConfig {
   const config = require(require.resolve(path.join(process.cwd(), filePath)));
 
   return {
     input: '.',
     ignore: ['**/node_modules/**'],
     output: './i18n',
-    langs: ['zh-cn', 'en'],
+    langs: ['en'],
     loader: [
       {
         test: '/\\.tsx?$/',
@@ -25,7 +26,3 @@ function getUserConfig(filePath) {
     ...config,
   };
 }
-
-module.exports = {
-  getUserConfig,
-};

@@ -4,6 +4,8 @@
   "main": "dist/bin/index.js",
   "devDependencies": {
     "@types/node": "^10.10.3",
+    "@types/yargs": "^15.0.8",
+    "ai18n-core": "^2.0.0",
     "ai18n-prettier": "^2.1.0",
     "prettier": "^2.1.2"
   },
@@ -15,15 +17,17 @@
     "ai18n-core": "^2.0.0"
   },
   "bin": {
-    "ai18n": "./bin/index.js"
+    "ai18n": "./dist/index.js"
   },
   "files": [
-    "bin"
+    "dist"
   ],
   "scripts": {
-    "prettier": "prettier -c bin",
+    "prettier": "prettier -c lib",
+    "build": "tsc -p tsconfig.json --outDir ./dist",
+    "prepublish": "npm run build",
     "lint": "npm run prettier",
-    "ci": "npm run lint && npm run test"
+    "ci": "npm run lint"
   },
   "gitHead": "542b5872b4777e342f2313b97b09666431cfc78a",
   "prettier": "ai18n-prettier"
