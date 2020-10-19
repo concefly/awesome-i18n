@@ -5,5 +5,5 @@
     "declaration": true,
     "strict": true
   },
-  "include": ["lib"]
+  "include": ["lib", "__test__"]
 }

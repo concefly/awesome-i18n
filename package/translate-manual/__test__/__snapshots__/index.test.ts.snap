@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ManualTranslator translateManual 1`] = `
+TranslateCtx {
+  "list": Array [
+    TranslateItem {
+      "from": "zh-cn",
+      "result": Object {
+        "message": "apple",
+      },
+      "text": "苹果",
+      "to": "en",
+      "uglify": Object {
+        "mapper": Map {},
+        "text": "苹果",
+      },
+    },
+    TranslateItem {
+      "from": "zh-cn",
+      "result": Object {
+        "message": "banana",
+      },
+      "text": "香蕉",
+      "to": "en",
+      "uglify": Object {
+        "mapper": Map {},
+        "text": "香蕉",
+      },
+    },
+  ],
+}
+`;
+
+exports[`ManualTranslator translatePlatform 1`] = `
+TranslateCtx {
+  "list": Array [
+    TranslateItem {
+      "from": "zh-cn",
+      "result": Object {
+        "message": "苹果",
+      },
+      "text": "苹果",
+      "to": "en",
+      "uglify": Object {
+        "mapper": Map {},
+        "text": "苹果",
+      },
+    },
+    TranslateItem {
+      "from": "zh-cn",
+      "result": Object {
+        "message": "香蕉",
+      },
+      "text": "香蕉",
+      "to": "en",
+      "uglify": Object {
+        "mapper": Map {},
+        "text": "香蕉",
+      },
+    },
+  ],
+}
+`;
